@@ -1,0 +1,21 @@
+#pragma once
+//#include "stdafx.h"
+#include <math.h>
+#include <string>
+using namespace std;
+
+
+class CDppUtilities
+{
+public:
+    CDppUtilities(void);
+    ~CDppUtilities(void);
+    /// Covert a long word into a double.
+    double LongWordToDouble(int lwStart, unsigned char buffer[]);
+    /// Convert a byte version value into a double.
+    double BYTEVersionToDouble(unsigned char Version);
+    /// Convert a byte version value into a string.
+    string BYTEVersionToCString(unsigned char Version);
+
+    string BYTEVersionToString(unsigned char Version);
+};
