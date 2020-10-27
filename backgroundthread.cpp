@@ -352,3 +352,12 @@ void backgroundthread::UpdateICPCONInfo(int device_id){
         this->pDevicesInformation[device_id].ICPCONDevice.Inputs_State[i] = static_cast<int>(get_icon_channel_state(i));
     }
 }
+
+
+void backgroundthread::EnableICONChannelRequest(int channel, int device_id){
+
+}
+
+void backgroundthread::DisableICONChannelRequest(int channel, int device_id){
+
+}

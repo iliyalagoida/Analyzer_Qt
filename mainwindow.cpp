@@ -57,11 +57,12 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     if(!IsErrors){
-       for(int i = 0; i < 8; ++i) // ICON ENABLE OUTPUT CLICKED NOTIFIER
+       for(int i = 0; i < 8; ++i) // ICON ENABLE/DISABLE OUTPUT CLICKED NOTIFIER
        {
            connect(outputsicontab->PushEnable[i], SIGNAL(clicked_channel(int)),this, SLOT(EnableICONOutputChannelRequest(int)));
            connect(outputsicontab->PushDisable[i], SIGNAL(clicked_channel(int)),this, SLOT(DisableICONOutputChannelRequest(int)));
        }
+       
        pThread  =  new backgroundthread(IPAddresses, DevicesInfo);
        pThread->OnboardStatusICON.resize(IPAddresses.size(), 0);
        pThread->OnboardStatusDP5.resize(IPAddresses.size(), 0);
@@ -71,6 +72,10 @@ MainWindow::MainWindow(QWidget *parent)
        connect(pThread, SIGNAL(CommunicationError(int, int )), this, SLOT(ManageThreadCode(int, int)));
        connect(pThread, SIGNAL(DeviceStatus(int, int )), this, SLOT(UpdateDeviceStatus(int, int)));
        connect(pThread, SIGNAL(StringStatusReceived(QString, int )), this, SLOT(UpdateDP5StatusString(QString, int)));
+       // ICPCON OUTPUTS CHANNEL MANAGEMENT SIGNALS ///
+       connect(this, SIGNAL(EnableChannel(int, int )), pThread,SLOT(EnableICONChannelRequest(int, int )));
+       connect(this, SIGNAL(DisableChannel(int, int )), pThread,SLOT(DisableICONChannelRequest(int, int )));
+       // ICPCON OUTPUTS CHANNEL MANAGEMENT SIGNALS ///
        pThread->start();
     }
 }
@@ -225,13 +230,13 @@ void MainWindow::UpdateICPCONViewers(int device_id){
 }
 
 void MainWindow::EnableICONOutputChannelRequest(int channel){
-    int device_id = -1;
+    int device_id = ui->IPAddressListWidget->currentRow();
     QMessageBox::information(this, " channel ", " Enable channel " + QString::number(channel));
     emit EnableChannel(channel, device_id);
 }
 
 void MainWindow::DisableICONOutputChannelRequest(int channel){
-    int device_id = -1;
+    int device_id = ui->IPAddressListWidget->currentRow();
     QMessageBox::information(this, " channel ", " Disable channel " + QString::number(channel));
     emit DisableChannel(channel, device_id);
 }

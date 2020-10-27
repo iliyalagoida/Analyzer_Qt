@@ -33,6 +33,11 @@ public:
     void run();
     friend class MainWindow;
 
+public slots:
+    void EnableICONChannelRequest(int channel, int device_id);
+    void DisableICONChannelRequest(int channel, int device_id);
+
+
 private:
     XRFDeviceInfo *pDevicesInformation;
     char hexx[16] = {48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70};
